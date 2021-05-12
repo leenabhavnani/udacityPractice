@@ -1,6 +1,7 @@
 Commands used- 
 
 aws cloudformation create-stack  --stack-name myFirstTest --region us-west-2 --template-body file://temp.yaml
+<br>
 aws cloudformation update-stack  --stack-name myFirstTest --region us-west-2 --template-body file://temp.yaml
 
 aws cloudformation describe-stacks --stack-name myFirstTest

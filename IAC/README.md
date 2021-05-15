@@ -12,7 +12,7 @@
     aws cloudformation delete-stack --stack-name myFirstTest
   
 ### Task 2 : Challenge 1 - Create an EC2 instance in a given VPC and deploy the Apache Web Server
-    Note- Update the AMI Images, VPC ID and Subnet ID in the parameter file before running the below commands
+   Note- Update the AMI Images, VPC ID and Subnet ID in the parameter file before running the below commands
 
     aws cloudformation create-stack  --stack-name challenge1 --region us-west-2 --template-body file://challenge1.yml --parameters file://challenge1-parameters.json
 
@@ -22,7 +22,7 @@
     
 ## _**Networking Infrastructure**_
   
-### Task 3 : Build the following resources - Virtual Private Cloud and subnets && Internet gateway and NAT gateway && Route table
+### Task 3 : Build the resources - Virtual Private Cloud and subnets && Internet gateway and NAT gateway && Route table
 
     aws cloudformation create-stack --stack-name myInfraStack --template-body file://myInfra.yaml  --parameters file://myInfraParameter.json --region=us-west-2
 
@@ -37,4 +37,6 @@ You’ll need to remove any components not needed (such as public subnets and NA
 
 ## _**Servers and Security Groups**_
 
-### Task 6 :
+### Task 6 : Build the resources with the extension of the resources created as part of Task 3 - Security Groups for Load Balancer and Web Servers, Launch Configuration and Auto Scaling Group along with Load Balancer with Listener and Target Group
+
+  

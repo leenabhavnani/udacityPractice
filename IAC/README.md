@@ -4,7 +4,7 @@ _**Getting Started with CloudFormation**_
 ### Task 1 : Create a VPC and understand various stack commands
   
     aws cloudformation create-stack  --stack-name myFirstTest --region us-west-2 --template-body file://temp.yaml
-    <br>
+    
     aws cloudformation update-stack  --stack-name myFirstTest --region us-west-2 --template-body file://temp.yaml
 
     aws cloudformation describe-stacks --stack-name myFirstTest

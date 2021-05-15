@@ -1,5 +1,5 @@
 ## All about this repo
-_**Getting Started with CloudFormation**_
+## _**Getting Started with CloudFormation**_
 
 ### Task 1 : Create a VPC and understand various stack commands
   
@@ -12,6 +12,7 @@ _**Getting Started with CloudFormation**_
     aws cloudformation delete-stack --stack-name myFirstTest
   
 ### Task 2 : Challenge 1 - Create an EC2 instance in a given VPC and deploy the Apache Web Server
+    Note- Update the AMI Images, VPC ID and Subnet ID in the parameter file before running the below commands
 
     aws cloudformation create-stack  --stack-name challenge1 --region us-west-2 --template-body file://challenge1.yml --parameters file://challenge1-parameters.json
 
@@ -19,7 +20,7 @@ _**Getting Started with CloudFormation**_
 
     aws cloudformation describe-stack-events --stack-name challenge1
     
- _**Networking Infrastructure**_
+## _**Networking Infrastructure**_
   
 ### Task 3 : Build the following resources - Virtual Private Cloud and subnets && Internet gateway and NAT gateway && Route table
 
@@ -30,8 +31,10 @@ You’ll need to remove any components not needed (such as public subnets and NA
 
     aws cloudformation update-stack --stack-name myPrivateNetworkStack --template-body file://private-network.yaml  --parameters file://private-networkParameter.json --region=us-west-2
   
-### Task 5 : Challenge 2 - Write a CloudFormation script to create multiple resources
+### Task 5 : Challenge 2 - Write a CloudFormation script to create multiple resources as per the guide. (screenshot of the final resources created attached)
 
     aws cloudformation create-stack --stack-name myIACStack --template-body file://IACChallenge2.yaml  --parameters file://IACChallenge2Parameter.json --region=us-west-2
+
+## _**Servers and Security Groups**_
 
 ### Task 6 :

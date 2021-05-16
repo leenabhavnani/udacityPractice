@@ -21,7 +21,7 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref VpcCIDR
-      EnableDnsSupport: 'false'
+      EnableDnsSupport: 'true'
       EnableDnsHostnames: 'false'
       InstanceTenancy: default
       Tags:
@@ -131,3 +131,17 @@ Resources:
         Ref: myPrivateSubnet1
       RouteTableId:
         Ref: PrivateRouteTable
+
+Outputs: 
+
+    VPC: 
+        Description: A reference to the created VPC
+        Value: !Ref myVPC
+        Export:
+          Name: !Sub ${EnvironmentName}-VPCID
+
+    PrivateSubnet:
+        Description: A reference to the private subnet in the 1st Availability Zone
+        Value: !Ref myPrivateSubnet1
+        Export:
+          Name: !Sub ${EnvironmentName}-PRI-SN

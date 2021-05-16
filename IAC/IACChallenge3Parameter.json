@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey": "EnvironmentName",
+        "ParameterValue": "Challenge2ByLeena"
+    },
+    {
+      "ParameterKey": "AMItoUse",
+      "ParameterValue": "ami-0cf6f5c8a62fa5da6"
+    }
+]

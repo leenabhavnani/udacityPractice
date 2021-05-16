@@ -37,6 +37,19 @@ You’ll need to remove any components not needed (such as public subnets and NA
 
 ## _**Servers and Security Groups**_
 
-### Task 6 : Build the resources with the extension of the resources created as part of Task 3 - Security Groups for Load Balancer and Web Servers, Launch Configuration and Auto Scaling Group along with Load Balancer with Listener and Target Group
+### Task 6 : Build the resources with the extension of the resources created as part of Task 3 - Security Groups for Load Balancer and Web Servers, Launch Configuration and Auto Scaling Group along with Load Balancer with Listener and Target Group. Verify the deployment by access the LB URL.
+
+    aws cloudformation create-stack --stack-name myInfraStack --template-body file://myInfra.yaml  --parameters file://myInfraParameter.json --region=us-west-2
+
+    aws cloudformation create-stack --stack-name myServerStack --template-body file://myServers.yaml  --parameters file://myServersParameter.json --region=us-west-2
+
+
+### Task 7 : Challenge 3 - You have been tasked with deploying a Linux server in a private subnet, using the infrastructure that you created in a previous exercise. AWS Systems Manager service will allow you to connect to this server and verify it’s working properly. Once the EC2 isntance is created, access it via Systems manager.
 
   
+    aws cloudformation create-stack --stack-name myIACStack --template-body file://IACChallenge2.yaml  --parameters file://IACChallenge2Parameter.json --region=us-west-2
+
+    aws cloudformation create-stack --stack-name myIAC3Stack --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --template-body file://IACChallenge3.yaml  --parameters file://IACChallenge3Parameter.json --region=us-west-2
+  
+  
+### Project 2 -

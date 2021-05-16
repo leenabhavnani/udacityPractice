@@ -28,7 +28,7 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref VpcCIDR
-      EnableDnsSupport: 'false'
+      EnableDnsSupport: 'true'
       EnableDnsHostnames: 'false'
       InstanceTenancy: default
       Tags:

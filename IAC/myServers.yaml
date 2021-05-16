@@ -57,7 +57,7 @@ Resources:
               cd /var/www/html
               echo "leena"
               echo "Udacity Demo Web Server Up and Running!" > index.html          
-      ImageId: ami-03d5c68bab01f3496
+      ImageId: ami-09c3a3d3af3a0bd2e
       KeyName: leena
       SecurityGroups:
       - Ref: WebServerSecGroup
@@ -72,7 +72,7 @@ Resources:
     Properties:
       VPCZoneIdentifier:
       - Fn::ImportValue: 
-          !Sub "${EnvironmentName}-PRIV-NETS"
+          !Sub "${EnvironmentName}-PUB-NETS"
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
       MinSize: '3'

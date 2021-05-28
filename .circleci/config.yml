@@ -31,4 +31,7 @@ workflows:
   print_hello:
     jobs:
       - print_hello
+
+  print_world:
+    jobs:
       - print_world

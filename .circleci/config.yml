@@ -22,4 +22,4 @@ workflows:
       
   print_hello:
     jobs:
-      - print_hellp/run
+      - print_hello/run

@@ -19,7 +19,10 @@ jobs:
     steps:
       - run : echo $PRODUCT_OWNER
       - store_test_results:
-          path: test-results
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test_results
 
 workflows:
   # Name the workflow "welcome"

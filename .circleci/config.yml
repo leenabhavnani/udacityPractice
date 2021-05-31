@@ -16,7 +16,7 @@ jobs:
             echo "Hello"
             pwd
             mkdir -p /tmp/test-results
-            make test
+            
 
   print_world:
     docker : 

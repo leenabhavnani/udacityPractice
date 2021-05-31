@@ -18,6 +18,8 @@ jobs:
       - image : circleci/node:13.8.0
     steps:
       - run : echo $PRODUCT_OWNER
+      - store_test_results:
+          path: test-results
 
 workflows:
   # Name the workflow "welcome"

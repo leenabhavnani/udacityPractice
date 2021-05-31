@@ -11,7 +11,12 @@ jobs:
     docker : 
       - image : circleci/node:13.8.0
     steps:
-      - run : echo "Hello"
+      - run : 
+          command : |
+            echo "Hello"
+            pwd
+            mkdir -p /tmp/test-results
+            make test
 
   print_world:
     docker : 
@@ -20,9 +25,7 @@ jobs:
       - run : echo $PRODUCT_OWNER
       - store_test_results:
           path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test_results
+      
 
 workflows:
   # Name the workflow "welcome"

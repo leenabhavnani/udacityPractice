@@ -25,7 +25,7 @@ jobs:
     steps:
       - run : 
           command : |
-            cat output.txt
+            cat /tmp/workspace/output.txt
       - attach_workspace :
           at: /tmp/workspace
 

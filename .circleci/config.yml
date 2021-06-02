@@ -23,11 +23,12 @@ jobs:
       - image : circleci/node:13.8.0
     working_directory: /tmp/workspace
     steps:
+      - attach_workspace :
+          at: /tmp/workspace
       - run : 
           command : |
             cat /tmp/workspace/output.txt
-      - attach_workspace :
-          at: /tmp/workspace
+      
 
 workflows:
       

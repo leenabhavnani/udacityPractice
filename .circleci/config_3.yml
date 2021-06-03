@@ -1,0 +1,38 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+# Use a package of configuration called an orb.
+#orbs:
+  # Declare a dependency on the welcome-orb
+  
+# Orchestrate or schedule a set of jobs
+commands:
+  sayhello:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      to:
+        type: string
+        default: " girl"
+    steps:
+      - run: 
+          command : |
+            echo ${CIRCLE_WORKFLOW_ID} 
+            echo hey << parameters.to >>.. You are the Best !!
+      
+jobs:
+  myjob:
+    docker : 
+      - image : circleci/node:13.8.0
+    steps:
+      - sayhello : #sayhello
+          to: "Leena"
+
+workflows:
+    sayhello:
+      jobs:
+        - myjob
+      
+  
+      
+
+
+  

@@ -5,26 +5,17 @@ version: 2.1
   # Declare a dependency on the welcome-orb
   
 # Orchestrate or schedule a set of jobs
-commands:
-  sayhello:
-    description: "A very simple command for demonstration purposes"
-    parameters:
-      to:
-        type: string
-        default: " girl"
-    steps:
-      - run: 
-          command : |
-            echo ${CIRCLE_WORKFLOW_ID} 
-            echo hey << parameters.to >>.. You are the Best !!
       
 jobs:
   myjob:
     docker : 
       - image : circleci/node:13.8.0
     steps:
-      - sayhello : #sayhello
-          to: "Leena"
+      - run : return 1
+      - run :
+          command : echo "Test Failed"
+          when: on_fail
+          
 
 workflows:
     sayhello:

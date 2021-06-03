@@ -11,9 +11,9 @@ commands:
     parameters:
       to:
         type: string
-        default: "Hello World"
+        default: " girl"
     steps:
-      - run: echo << parameters.to >>
+      - run: echo hey << parameters.to >>.. You are the Best !!
       
 jobs:
   myjob:

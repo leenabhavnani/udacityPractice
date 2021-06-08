@@ -1,7 +1,7 @@
 ---
 - name: "Install Apache2"
-  become :true
-  apt :
+  become: true
+  apt:
     name: ["apache"]
     state: latest
     update_cache: yes

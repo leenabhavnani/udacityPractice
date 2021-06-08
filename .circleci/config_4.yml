@@ -7,24 +7,20 @@ version: 2.1
 # Orchestrate or schedule a set of jobs
       
 jobs:
-  create_infrastructure:
+  myjob:
     docker : 
-      - image : amazon/aws-cli
+      - image : circleci/node:13.8.0
     steps:
-      - checkout
+      - run : return 1
       - run :
-          name: Ensure backend infrastructure exist
-          command : |
-            aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name my-stack        
-          
+          command : echo "Test Failed"
+          when: on_fail
           
 
 workflows:
     sayhello:
       jobs:
-        - create_infrastructure
+        - myjob
       
   
       

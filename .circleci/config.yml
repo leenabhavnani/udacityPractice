@@ -18,7 +18,7 @@ jobs:
             pwd
             ls
             aws cloudformation deploy \
-              --template-file template.yml \
+              --template-file Ansible/template.yml \
               --stack-name my-stack        
           
           

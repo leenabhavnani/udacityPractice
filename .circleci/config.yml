@@ -29,10 +29,11 @@ jobs:
     docker : 
       - image :  alpine:latest
     steps:
+      - run: apk add --update curl
       - run:
           name: Smoke Tests
           command: |
-            if curl -s --head "http://54.188.111.190:3000" 
+            if curl -s --head "https://blog.udacity.com/" 
                 then
             echo "It worked!"
             else

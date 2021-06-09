@@ -7,26 +7,30 @@ version: 2.1
 # Orchestrate or schedule a set of jobs
       
 jobs:
-  create_infrastructure:
+  configure_infrastructure:
     docker : 
-      - image : amazon/aws-cli
+      - image :  python:3.7-alpine3.11
     steps:
       - checkout
-      - run :
-          name: Ensure backend infrastructure exist
-          command : |
+      - add_ssh_keys:
+          fingerprints: ["30:56:a8:8d:74:d8:05:65:72:6e:a8:39:a4:f1:66:82"] # You can get this ID in the section where you registered the SSH Key
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible # install the dependencies needed for your playbook
+      - run:
+          name: Configure server
+          command: |
             pwd
             ls
-            aws cloudformation deploy \
-              --template-file Ansible/template.yml \
-              --stack-name my-stack        
+            ansible-playbook -i inventory.txt playbook.yml    
           
           
 
 workflows:
-    create_infrastructure:
+    configure_infrastructure:
       jobs:
-        - create_infrastructure
+        - configure_infrastructure
       
   
       

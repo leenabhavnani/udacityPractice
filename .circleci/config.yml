@@ -26,19 +26,21 @@ jobs:
           command : |
             pwd
             ls
+
             aws cloudformation deploy \
               --template-file Ansible/template.yml \
               --stack-name prod-${CIRCLE_WORKFLOW_ID}     
       - run: return 1
       - destroy_environment
-        when: on_fail
-          
-          
+        when: on_fail          
+
 
 workflows:
     create_infrastructure:
       jobs:
         - create_infrastructure
+       
+
       
   
       

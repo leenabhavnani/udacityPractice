@@ -24,6 +24,21 @@ jobs:
             pwd
             ls
             ansible-playbook -i Ansible/inventory.txt Ansible/main.yml    
+            
+  smoke_test:
+    docker : 
+      - image :  alpine:latest
+    steps:
+      - run:
+          name: Smoke Tests
+          command: |
+            if curl -s --head "http://54.188.111.190:3000" 
+                then
+            echo "It worked!"
+            else
+              echo "It failed"
+            fi
+    
           
           
 
@@ -31,6 +46,10 @@ workflows:
     configure_infrastructure:
       jobs:
         - configure_infrastructure
+        - smoke_test
+            requires:
+              - configure_infrastructure
+                
       
   
       

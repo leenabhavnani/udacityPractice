@@ -23,7 +23,7 @@ jobs:
           command: |
             pwd
             ls
-            ansible-playbook -i inventory.txt playbook.yml    
+            ansible-playbook -i inventory.txt Ansible/main-remote.yml    
           
           
 

@@ -23,7 +23,7 @@ jobs:
           command: |
             pwd
             ls
-            ansible-playbook -i Ansible/inventory.txt Ansible/main.yml    
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i Ansible/inventory.txt Ansible/main-remote.yml 
             
   smoke_test:
     docker : 
@@ -39,8 +39,7 @@ jobs:
               echo "It failed"
             fi
     
-          
-          
+
 
 workflows:
     configure_infrastructure:

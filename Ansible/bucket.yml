@@ -1,6 +1,6 @@
 Parameters:
-NAME:
-  Type: String
+  NAME:
+    Type: String
 Resources:
   WebsiteBucket:
     Type: AWS::S3::Bucket

@@ -1,47 +1,120 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-# Use a package of configuration called an orb.
-#orbs:
-  # Declare a dependency on the welcome-orb
-  
-# Orchestrate or schedule a set of jobs
+#update
 
-commands:
-  destroy_environment:
-    steps:
-      - run:
-          name: Destroy environment
-          command: |
-            aws cloudformation delete-stack --stack-name prod-${CIRCLE_WORKFLOW_ID}
-          when: on_fail
-      
 jobs:
-  create_infrastructure:
-    docker : 
-      - image : amazon/aws-cli
+  create_and_deploy_front_end: #job name
+    docker: # it uses the docker executor
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: Ensure backend infrastructure exist
+          name: deploy cloudfront
+          #echo environment variable
           command: |
-            pwd
-            ls
+            aws cloudformation deploy --template-file bucket.yml --stack-name "chez-${CIRCLE_WORKFLOW_ID:0:7}" --parameter-overrides NAME="chez-${CIRCLE_WORKFLOW_ID:0:7}"
+      - run: aws s3 sync . s3://"chez-${CIRCLE_WORKFLOW_ID:0:7}" --delete
+
+  get_last_deployment_id: #job name
+    docker: # it uses the docker executor
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run: yum install -y tar
+      - run: yum install -y gzip
+      - run:
+          name: get last deployment id
+          #echo environment variable
+          command: |
+            aws cloudformation \
+            list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
+            --no-paginate --output text > ~/deployment_id.txt
+      - run: cat ~/deployment_id.txt
+      - run:
+          name: get last deployment stack name
+          #echo environment variable
+          command: |
+            aws cloudformation \
+            list-exports --query "Exports[?Name==\`StackName\`].Value" \
+            --no-paginate --output text > ~/stack_name.txt
+      - run: cat ~/stack_name.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - deployment_id.txt
+            - stack_name.txt
+
+  promote_to_production: #job name
+    docker: # it uses the docker executor
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: promote to production
+          #echo environment variable
+          command: |
             aws cloudformation deploy \
-            --template-file Ansible\bucket.yml \
-            --stack-name "${CIRCLE_WORKFLOW_ID:0:7}" \ # ${CIRCLE_WORKFLOW_ID:0:7} takes the first 7 chars of the variable CIRCLE_CI_WORKFLOW_ID
-            --parameter-overrides PipelineID="${CIRCLE_WORKFLOW_ID:0:7}"    
-      - destroy_environment
-        
+            --template-file cloudfront.yml \
+            --stack-name production-distro \
+            --parameter-overrides PipelineID="chez-${CIRCLE_WORKFLOW_ID:0:7}"
+  clean_up_old_front_end: #job name
+    docker: # it uses the docker executor
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run: yum install -y tar
+      - run: yum install -y gzip
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: clean up
+          command: |
+            cat ~/deployment_id.txt
+            cat ~/stack_name.txt
+            OldPipelineID=$(cat ~/deployment_id.txt)
+            echo $OldPipelineID
+            PreviousStackName=$(cat ~/stack_name.txt)
+            echo $PreviousStackName
+            aws s3 rm s3://${OldPipelineID} --recursive
+            aws cloudformation delete-stack --stack-name $PreviousStackName
+  save_hello_world_output: #job name
+    docker: # it uses the docker executor
+      - image: amazon/aws-cli
+    steps:
+      - run: echo "hello world" > ~/output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
 
+  print_output_file:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: print something
+          command: |
+            echo "hello world" > ~/output.txt
+            cat ~/output.txt
+            OldPipelineID=$(cat ~/output.txt)
+            echo $OldPipelineID
+            echo "$OldPipelineID"
+            echo "${OldPipelineID}"
 workflows:
-    create_infrastructure:
-      jobs:
-        - create_infrastructure
-       
-
-      
-  
-      
-
-
-  
+  # workflow
+  my_workflow:
+    jobs:
+      - create_and_deploy_front_end
+      - get_last_deployment_id:
+          requires:
+            - create_and_deploy_front_end
+      - promote_to_production:
+          requires:
+            - get_last_deployment_id
+      - clean_up_old_front_end:
+          requires:
+            - promote_to_production
+      # - save_hello_world_output
+      # - print_output_file
+      #     requires:
